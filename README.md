@@ -5,14 +5,14 @@ developers rather than for assisting potential users.
 
 ## Current Functionality and Future plans
 
-** Current **
+**Current**
 
 Game is very primitive, a ball bounces around screen in a predictable pattern,
 when it hits the bottom a life is lost. When lives hit 0, the program closes.
 The paddle is moveable with the arrow keys (LEFT and RIGHT). Currently working
 on ball bounce pattern changes when ball hits a moving paddle.
 
-** TODO: **
+**TODO:**
 
 - Game Over screen and new game option
 
@@ -33,7 +33,7 @@ on ball bounce pattern changes when ball hits a moving paddle.
 
 - Obstacles
 
-  -
+  
 ## ballgame.py
 
 *The main file script*
