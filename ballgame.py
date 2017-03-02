@@ -28,7 +28,7 @@ class game():
         # Number of lives
         self.num_lives = 5
         self.speedX = -2
-        self.speedY = 2
+        self.speedY = 3
         self.speed = [self.speedX, self.speedY]
 
         # Colors, RGB values
@@ -70,6 +70,10 @@ class game():
 
 
     def moveBall(self):
+        # Doesn't only move ball
+        # updates lives
+        # places windows
+
         # Fill main window color Black
         self.main_window.fill((self.black))
 
@@ -173,6 +177,7 @@ class game():
 
             if  self.num_lives == 0:
 
+                print('='*30,'\n','='*30)
                 self.gameOver()
                 break
 
@@ -190,6 +195,10 @@ class game():
             if self.ballrect.top < 0 or self.ballrect.bottom > self.height:
                 self.speed[1] = -self.speed[1]
 
+            # Print speed at top screen bounce for debugging
+            if self.ballrect.top < 0:
+                print('hit top ', self.speed)
+
 
             # Yay pygame collision testing
             # Test if ball collides with paddle
@@ -198,41 +207,48 @@ class game():
 
                 # Conditions for how to adjust ball speed `self.speed` var
                 # Should adujust speed AND invert direction
-                # Currently not working properly
+                # Currently not working properly, However I do have it working
+                # much better now and not quite as worried.
 
-                    # 1) When moving left, ball often is not inverted and life
-                    #    is lost, Ball usually goes throug paddle and often
+                    # 1) When moving left, ball sometimes is not inverted (bounced
+                    #    up) and life is lost, Ball usually goes throug paddle and often
                     #    becomes stuck and game ends immediatly.
 
                     # 2) Occasionally ball inverts in wrong direction????
-                    #    happened once. While moving left
+                    #    switch from -1>>0>>1 and visa versa is probably
+                    #    creating something wierd here.
 
-                    # 3) Ball changes correctly on right movements, however
-                    #    gains far too  much speed. Needs a way to make more
-                    #    minute adjustments.
+                    # 3) Speed Fluctuates seemingly at random, could be lag
+                    #
+                    #
 
                 if change_direction is True:
                     print('change direction', self.speed)
                     # Changes the X coordinate in speed to a negative (inverts)
-                    # This is what creates the bounce effect
-                    self.speed[1] = -self.speed[1]
-                    print(self.speed)
+                    #print(self.speed)
 
                     if direction_change == go_right:
                         speedX += 1
                         speedY -= 1
                         self.speed = [speedX, speedY]
                         direction_change = 0
+                        print('change right', self.speed)
+
                     elif direction_change == go_left:
                         speedX -= 1
                         speedY += 1
                         self.speed = [speedX, speedY]
                         direction_change = 0
-                    else: self.speed = self.speed
+                        print('change left', self.speed)
 
-                else:
-                    print('direction constant')
+                    else: self.speed = self.speed
+                    # This is what creates the bounce effect
                     self.speed[1] = -self.speed[1]
+                    print('after bounce', self.speed)
+ 
+                else:
+                    self.speed[1] = -self.speed[1]
+                    print('direction constant', self.speed)
 
             # Life lost if ball hits bottom of screen
             if self.ballrect.bottom > self.height:
