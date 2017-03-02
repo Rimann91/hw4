@@ -18,6 +18,9 @@ on ball bounce pattern changes when ball hits a moving paddle.
 
 - Pause function
 
+*[here](https://pythonprogramming.net/pause-game-pygame/) to short example of
+`pause` and `game over` functions*
+
 - Better ball physics
 
 - Ball starts non moving on paddle until a specified key is pressed
@@ -30,6 +33,14 @@ on ball bounce pattern changes when ball hits a moving paddle.
 - Levels
 
 - Objectives
+    
+    - Hit paddle `x` many times in a row
+
+    - break blocks
+
+    - make a basket
+
+    - survive for `x` minutes
 
 - Obstacles
 
