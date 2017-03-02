@@ -10,26 +10,23 @@ class game():
 
         # set key hold down repeat
 
-        pygame.key.set_repeat(1,1)
+        pygame.key.set_repeat(2,2)
 
         # Image Sizes and positions and movement speeds
         self.lives_size = 700, 200
-        self.padle_size = [90,10]
+        self.padle_size = [50,10]
         self.padle_pos  = [350, 685]
         self.game_size = self.width, self.height = 700,700
 
         # Balls Movement Speed
         # Note: this is confusing because its both speed AND direction
-        self.speedX = -2     # X coordinate movement for ball
+        self.speedX = -3     # X coordinate movement for ball
         self.speedY = 2      # Y coordinate movement for ball
         self.speed = [self.speedX, self.speedY]  # Total ball Movement speed
 
 
         # Number of lives
         self.num_lives = 5
-        self.speedX = -2
-        self.speedY = 3
-        self.speed = [self.speedX, self.speedY]
 
         # Colors, RGB values
         self.white = 255, 255, 255
@@ -39,6 +36,9 @@ class game():
         self.font = pygame.font.SysFont("Verdona", 24)
         self.font_color = self.black
         self.font_background = self.white
+
+        # game state
+        self.pause = False
 
 
         # Label area where lives are displayed
@@ -114,6 +114,25 @@ class game():
 
         return self.game_over.blit(label, (300, 0),label_rect)
 
+    def paused(self):
+
+            #largeText = pygame.font.SysFont("comicsansms",115)
+            #TextSurf, TextRect = text_objects("Paused", largeText)
+            #TextRect.center = ((display_width/2),(display_height/2))
+            #gameDisplay.blit(TextSurf, TextRect)
+
+            while self.pause:
+
+                for event in pygame.event.get():
+
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit()
+
+                    if event.key == K_c:
+                        self.pause = False
+                        break
+
 
 
     def game_loop(self):
@@ -148,6 +167,7 @@ class game():
                     change_direction = False
                 if event.type == pygame.KEYDOWN:
 
+                    # See which key is pressed
                     # If yes, paddle moving, change ball direction accordingly
                     if  event.key == pygame.K_RIGHT:
                         change_direction = True
@@ -157,7 +177,7 @@ class game():
                         if self.padle_pos[0] > self.width-self.padle_size[0]:
                             self.padle_pos[0]+=0
                         else:
-                            self.padle_pos[0] += 3
+                            self.padle_pos[0] += 5
 
                     # Same as previous If nest, but opposit direction
                     if  event.key == pygame.K_LEFT:
@@ -166,7 +186,13 @@ class game():
                         if self.padle_pos[0] < 0:
                             self.padle_pos[0]+=0
                         else:
-                            self.padle_pos[0] -= 3
+                            self.padle_pos[0] -= 5
+
+                    # Pause game key (p), press (c) to continue. 
+                    #    see paused() method
+                    if event.key == K_p:
+                        self.pause = True
+                        self.paused()
 
 
             # Put the paddle on screen

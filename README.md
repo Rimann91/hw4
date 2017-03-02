@@ -3,6 +3,20 @@
 This README will be for keeping track of project goals and progress for the
 developers rather than for assisting potential users.
 
+## Game Play instructions
+
+**objective**
+
+Don't let the ball hit the floor!, you only get five lives.
+
+- *MOVEMENT:* use LEFT and RIGHT arrow keys to move paddle
+
+- *BALL DIRECTION:* the ball direction can be changed by hitting it with the
+  paddle while the paddle is in motion
+
+- *PAUSE GAME:* you can pause the game by pressing (p). Press (c) to continue
+
+
 ## Current Functionality and Future plans
 
 **Current**
