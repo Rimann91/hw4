@@ -17,20 +17,28 @@ class game():
         self.padle_size = [50,10]
         self.padle_pos  = [350, 685]
         self.game_size = self.width, self.height = 700,700
+        self.gButton_pos = [150, 300 ]
+        self.gButton_size = [100, 50]
+        self.rButton_pos = [450, 300]
+        self.rButton_size = [100, 50]
 
         # Balls Movement Speed
         # Note: this is confusing because its both speed AND direction
-        self.speedX = -3     # X coordinate movement for ball
-        self.speedY = 2      # Y coordinate movement for ball
+        self.speedX = -2     # X coordinate movement for ball
+        self.speedY = 1      # Y coordinate movement for ball
         self.speed = [self.speedX, self.speedY]  # Total ball Movement speed
 
 
         # Number of lives
-        self.num_lives = 5
+        self.num_lives = 1
 
         # Colors, RGB values
         self.white = 255, 255, 255
         self.black = 0, 0, 0
+        self.red = 200,0,0
+        self.green = 0,200,0
+        self.b_red = 255,0,0
+        self.b_green = 0,255,0
 
         # Font style and display
         self.font = pygame.font.SysFont("Verdona", 24)
@@ -41,10 +49,11 @@ class game():
         self.pause = False
 
 
+
         # Label area where lives are displayed
         # Game over display not currently working
         self.display_lives = pygame.display.set_mode(self.lives_size)
-        self.game_over = pygame.display.set_mode(self.lives_size)
+
 
         # Main Window for game... Wierd spot for it
         self.main_window = pygame.display.set_mode((700,720))
@@ -53,11 +62,39 @@ class game():
         self.screen = pygame.Surface((self.game_size))
         self.screen_rect = self.screen.get_rect()
 
+        # Make game oover window image
+        #game_over = pygame.display.set_mode((200,200))
+        #gameover_rect = self.game_over.get_rect()
+
         # Importing ball Image
         self.ball = pygame.image.load("redball2.png")
         self.ballrect = self.ball.get_rect()
 
 
+
+    def Button(self, color, b_color, x,y, w,h):
+
+        mouse = pygame.mouse.get_pos()
+        print(mouse)
+
+       # Make button images
+
+        boundry = x + w > mouse[0] > x and y + h > mouse[1] > y
+
+
+
+        if boundry is True:
+
+            pygame.draw.rect(self.main_window, b_color, Rect((x,y), (w,h)))
+
+
+        else:
+
+            pygame.draw.rect(self.main_window, color, Rect((x,y), (w,h)))
+
+
+    def Abuttun(self):
+        pass
 
     def paddle(self):
 
@@ -69,6 +106,7 @@ class game():
 
 
 
+
     def moveBall(self):
         # Doesn't only move ball
         # updates lives
@@ -77,7 +115,7 @@ class game():
         # Fill main window color Black
         self.main_window.fill((self.black))
 
-        # place the game play window on main window 
+        # place the game play window on main window
         self.main_window.blit(self.screen, (0,20), self.screen_rect)
 
         # Show Lives
@@ -93,6 +131,11 @@ class game():
 
         # place the lives display on the window made for it
         self.display_lives.blit(label, (300, 0),label_rect)
+
+
+        # place the game play window on main window
+        self.main_window.blit(self.screen, (0,20), self.screen_rect)
+        # place the lives display on the window made for it
         self.screen.fill(self.white)
 
         #place the ball on the screen
@@ -103,16 +146,32 @@ class game():
         pass
 
     def gameOver(self):
-        gameover = "GAME OVER"
-        self.main_window.fill((self.black))
-        label = self.font.render(
-                gameover,      # The font to render
-                1,             # With anti aliasing
-                self.font_color,
-                self.font_background)
-        label_rect = label.get_rect()
 
-        return self.game_over.blit(label, (300, 0),label_rect)
+
+
+        self.screen.fill((self.white))
+        self.main_window.blit(self.screen, (0,20), self.screen_rect)
+
+
+        while True:
+
+
+            for event in pygame.event.get():
+                #print(event)
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    #quit()
+
+
+            self.Button(self.green, self.b_green, 150,300, 100,50)
+            self.Button(self.red, self.b_red, 450,300, 100,50)
+
+
+
+
+            pygame.display.flip()
+
+
 
     def paused(self):
 
@@ -129,9 +188,10 @@ class game():
                         pygame.quit()
                         quit()
 
-                    if event.key == K_c:
-                        self.pause = False
-                        break
+                    if event.type == KEYDOWN:
+                        if event.key == K_c:
+                            self.pause = False
+                            break
 
 
 
@@ -204,8 +264,9 @@ class game():
             if  self.num_lives == 0:
 
                 print('='*30,'\n','='*30)
+                #self.pause = True
+                #self.paused()
                 self.gameOver()
-                break
 
             # Move Ball
 
