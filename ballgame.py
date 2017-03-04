@@ -71,30 +71,47 @@ class game():
         self.ballrect = self.ball.get_rect()
 
 
+    def textObjects(self, text, font):
+        textSurface = font.render(text, True, self.black)
+        return  textSurface, textSurface.get_rect()
 
-    def Button(self, color, b_color, x,y, w,h):
+    def Button(self, msg, color, b_color, x,y, w,h, action = None):
 
         mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
         print(mouse)
 
-       # Make button images
+
+       # identify button boundry
 
         boundry = x + w > mouse[0] > x and y + h > mouse[1] > y
 
-
+        # button image / active vs inactives
 
         if boundry is True:
 
             pygame.draw.rect(self.main_window, b_color, Rect((x,y), (w,h)))
+
+            if click[0] == 1 and action != None:
+
+                if action == "start":
+                    self.num_lives = 5
+                    self.game_loop()
+
+                elif action == "quit":
+                    pygame.quit()
 
 
         else:
 
             pygame.draw.rect(self.main_window, color, Rect((x,y), (w,h)))
 
+        text = pygame.font.SysFont("Verdona", 40)
+        textSurface, textRect = self.textObjects(msg, text)
+        self.main_window.blit(textSurface, (x, y),textRect)
 
-    def Abuttun(self):
-        pass
+
+
 
     def paddle(self):
 
@@ -103,8 +120,6 @@ class game():
         paddle = pygame.draw.rect(self.screen, self.black,
                 Rect(self.padle_pos, self.padle_size))
         return paddle
-
-
 
 
     def moveBall(self):
@@ -147,14 +162,11 @@ class game():
 
     def gameOver(self):
 
-
-
         self.screen.fill((self.white))
         self.main_window.blit(self.screen, (0,20), self.screen_rect)
 
 
         while True:
-
 
             for event in pygame.event.get():
                 #print(event)
@@ -162,15 +174,11 @@ class game():
                     pygame.quit()
                     #quit()
 
-
-            self.Button(self.green, self.b_green, 150,300, 100,50)
-            self.Button(self.red, self.b_red, 450,300, 100,50)
-
-
+            self.Button("AGAIN!",self.green, self.b_green, 150,300, 100,50, "start")
+            self.Button("QUIT",self.red, self.b_red, 450,300, 100,50, "quit")
 
 
             pygame.display.flip()
-
 
 
     def paused(self):
